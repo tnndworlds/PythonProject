@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.iec.ch/wsdl/2008/abstract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns3="http://schemas.xmlsoap.org/soap/http" xmlns:ns2="http://www.csg.cn/soa" xmlns:ns1="http://www.iec.ch/TC57/2008/schema/message" name="Service" targetNamespace="http://www.iec.ch/wsdl/2008/abstract">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.iec.ch/TC57/2008/schema/message" elementFormDefault="qualified" targetNamespace="http://www.iec.ch/TC57/2008/schema/message" version="1.0">
+
+  <xs:element name="EventMessage" type="tns:EventMessageType"/>
+
+  <xs:element name="FaultMessage" type="tns:FaultMessageType"/>
+
+  <xs:element name="Message" type="tns:MessageType"/>
+
+  <xs:element name="RequestMessage" type="tns:RequestMessageType"/>
+
+  <xs:element name="RespSynchroMessage" type="tns:RespSynchroMessageType"/>
+
+  <xs:element name="ResponseMessage" type="tns:ResponseMessageType"/>
+
+  <xs:element name="SynchroMessage" type="tns:SynchroMessageType"/>
+
+  <xs:complexType name="EventMessageType">
+    <xs:sequence>
+      <xs:element name="Header" type="tns:HeaderType"/>
+      <xs:element minOccurs="0" name="Request" type="tns:RequestType"/>
+      <xs:element minOccurs="0" name="Payload" type="tns:PayloadType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="HeaderType">
+    <xs:sequence>
+      <xs:element name="Verb" type="xs:string"/>
+      <xs:element name="Noun" type="xs:string"/>
+      <xs:element minOccurs="0" name="Revision" type="xs:string"/>
+      <xs:element minOccurs="0" name="ReplayDetection" type="tns:ReplayDetectionType"/>
+      <xs:element minOccurs="0" name="Context" type="xs:string"/>
+      <xs:element minOccurs="0" name="Timestamp" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Source" type="xs:string"/>
+      <xs:element minOccurs="0" name="AsyncReplyFlag" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="ReplyAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="AckRequired" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="User" type="tns:UserType"/>
+      <xs:element minOccurs="0" name="MessageID" type="xs:string"/>
+      <xs:element minOccurs="0" name="CorrelationID" type="xs:string"/>
+      <xs:element minOccurs="0" name="Comment" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Property" type="tns:MessageProperty"/>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReplayDetectionType">
+    <xs:sequence>
+      <xs:element name="Nonce" type="xs:string"/>
+      <xs:element name="Created" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UserType">
+    <xs:sequence>
+      <xs:element name="UserID" type="xs:string"/>
+      <xs:element name="Organization" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MessageProperty">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element minOccurs="0" name="Value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MessageType">
+    <xs:sequence>
+      <xs:element name="Header" type="tns:HeaderType"/>
+      <xs:element minOccurs="0" name="Request" type="tns:RequestType"/>
+      <xs:element minOccurs="0" name="Reply" type="tns:ReplyType"/>
+      <xs:element minOccurs="0" name="Payload" type="tns:PayloadType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="StartTime" type="xs:string"/>
+      <xs:element minOccurs="0" name="EndTime" type="xs:string"/>
+      <xs:element minOccurs="0" name="Option" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="ID" type="xs:string"/>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReplyType">
+    <xs:sequence>
+      <xs:element name="ReplyCode" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Error" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="ID" type="xs:string"/>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PayloadType">
+    <xs:sequence>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+      <xs:element minOccurs="0" name="Compressed" type="xs:string"/>
+      <xs:element minOccurs="0" name="format" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseMessageType">
+    <xs:sequence>
+      <xs:element name="Header" type="tns:HeaderType"/>
+      <xs:element name="Reply" type="tns:ReplyType"/>
+      <xs:element minOccurs="0" name="Payload" type="tns:PayloadType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FaultMessageType">
+    <xs:sequence>
+      <xs:element name="Reply" type="tns:ReplyType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RespSynchroMessageType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SynchroTime" type="xs:string"/>
+      <xs:element minOccurs="0" name="para1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestMessageType">
+    <xs:sequence>
+      <xs:element name="Header" type="tns:HeaderType"/>
+      <xs:element minOccurs="0" name="Request" type="tns:RequestType"/>
+      <xs:element minOccurs="0" name="Payload" type="tns:PayloadType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SynchroMessageType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="para1" type="xs:string"/>
+      <xs:element minOccurs="0" name="para2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.csg.cn/soa" xmlns:ns1="http://www.iec.ch/TC57/2008/schema/message" targetNamespace="http://www.csg.cn/soa" version="1.0">
+
+  <xs:import namespace="http://www.iec.ch/TC57/2008/schema/message"/>
+
+  <xs:element name="AllConditions" type="tns:ConditionSequence"/>
+
+  <xs:element name="GetDataMessage" type="ns1:RequestMessageType"/>
+
+  <xs:element name="GetFileDataMessage" type="ns1:RequestMessageType"/>
+
+  <xs:element name="GetHisDataMessage" type="ns1:RequestMessageType"/>
+
+  <xs:element name="HisDataType" type="tns:HisDataType"/>
+
+  <xs:element name="SelectAttrs" type="tns:SelectAttrsType"/>
+
+  <xs:complexType name="Item">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="attr" type="xs:string"/>
+        <xs:attribute name="operator" type="tns:Operator"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="HisDataType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="attr" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConditionSequence">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Condition" type="tns:QueryCondition"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryCondition">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="item" type="tns:Item"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SelectAttrsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="attr" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="Operator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EQ"/>
+      <xs:enumeration value="NE"/>
+      <xs:enumeration value="GT"/>
+      <xs:enumeration value="LT"/>
+      <xs:enumeration value="GE"/>
+      <xs:enumeration value="LE"/>
+      <xs:enumeration value="LIKE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="PublishEvent">
+    <wsdl:part element="ns1:EventMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetSystemTime">
+    <wsdl:part element="ns1:SynchroMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetSystemTimeResponse">
+    <wsdl:part element="ns1:RespSynchroMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Request">
+    <wsdl:part element="ns1:Message" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RequestResponse">
+    <wsdl:part element="ns1:ResponseMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PublishEventResponse">
+    <wsdl:part element="ns1:ResponseMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetHisData">
+    <wsdl:part element="ns2:GetHisDataMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="FaultMessage">
+    <wsdl:part element="ns1:FaultMessage" name="FaultMessage">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetData">
+    <wsdl:part element="ns2:GetDataMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetFileDataResponse">
+    <wsdl:part element="ns1:ResponseMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDataResponse">
+    <wsdl:part element="ns1:ResponseMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetFileData">
+    <wsdl:part element="ns2:GetFileDataMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetHisDataResponse">
+    <wsdl:part element="ns1:ResponseMessage" name="Message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Operations">
+    <wsdl:operation name="PublishEvent">
+      <wsdl:input message="tns:PublishEvent" name="PublishEvent">
+    </wsdl:input>
+      <wsdl:output message="tns:PublishEventResponse" name="PublishEventResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FaultMessage" name="FaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemTime">
+      <wsdl:input message="tns:GetSystemTime" name="GetSystemTime">
+    </wsdl:input>
+      <wsdl:output message="tns:GetSystemTimeResponse" name="GetSystemTimeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FaultMessage" name="FaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <wsdl:input message="tns:GetData" name="GetData">
+    </wsdl:input>
+      <wsdl:output message="tns:GetDataResponse" name="GetDataResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FaultMessage" name="FaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Request">
+      <wsdl:input message="tns:Request" name="Request">
+    </wsdl:input>
+      <wsdl:output message="tns:RequestResponse" name="RequestResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FaultMessage" name="FaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileData">
+      <wsdl:input message="tns:GetFileData" name="GetFileData">
+    </wsdl:input>
+      <wsdl:output message="tns:GetFileDataResponse" name="GetFileDataResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FaultMessage" name="FaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetHisData">
+      <wsdl:input message="tns:GetHisData" name="GetHisData">
+    </wsdl:input>
+      <wsdl:output message="tns:GetHisDataResponse" name="GetHisDataResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FaultMessage" name="FaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSoapBinding" type="tns:Operations">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="PublishEvent">
+      <soap:operation soapAction="document" style="document"/>
+      <wsdl:input name="PublishEvent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="PublishEventResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultMessage">
+        <soap:fault name="FaultMessage" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemTime">
+      <soap:operation soapAction="document" style="document"/>
+      <wsdl:input name="GetSystemTime">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetSystemTimeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultMessage">
+        <soap:fault name="FaultMessage" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <soap:operation soapAction="document" style="document"/>
+      <wsdl:input name="GetData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultMessage">
+        <soap:fault name="FaultMessage" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Request">
+      <soap:operation soapAction="document" style="document"/>
+      <wsdl:input name="Request">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="RequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultMessage">
+        <soap:fault name="FaultMessage" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileData">
+      <soap:operation soapAction="document" style="document"/>
+      <wsdl:input name="GetFileData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetFileDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultMessage">
+        <soap:fault name="FaultMessage" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetHisData">
+      <soap:operation soapAction="document" style="document"/>
+      <wsdl:input name="GetHisData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetHisDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultMessage">
+        <soap:fault name="FaultMessage" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port binding="tns:ServiceSoapBinding" name="SOAP">
+      <soap:address location="http://localhost:8080/Service/Hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

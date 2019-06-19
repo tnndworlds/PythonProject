@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:ns="http://www.iec.ch/wsdl/2008/abstract" xmlns:ns2="http://www.iec.ch/TC57/2008/schema/message" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iec.ch/wsdl/2008/abstract" xmlns:soa="http://www.csg.cn/soa">
+	<wsdl:import location="soa.wsdl" namespace="http://www.csg.cn/soa"/>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.iec.ch/TC57/2008/schema/message" elementFormDefault="qualified" attributeFormDefault="qualified">
+			<xsd:include schemaLocation="Message.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="Message">
+		<wsdl:part name="Message" element="ns2:Message"/>
+	</wsdl:message>
+	<wsdl:message name="RequestMessage">
+		<wsdl:part name="Message" element="ns2:RequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="ResponseMessage">
+		<wsdl:part name="Message" element="ns2:ResponseMessage"/>
+	</wsdl:message>
+	<wsdl:message name="EventMessage">
+		<wsdl:part name="Message" element="ns2:EventMessage"/>
+	</wsdl:message>
+	<wsdl:message name="SynchroMessage">
+		<wsdl:part name="Message" element="ns2:SynchroMessage"/>
+	</wsdl:message>
+	<wsdl:message name="RespSynchroMessage">
+		<wsdl:part name="Message" element="ns2:RespSynchroMessage"/>
+	</wsdl:message>
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="part1" element="ns2:FaultMessage"/>
+	</wsdl:message>
+	<wsdl:portType name="Operations">
+		<wsdl:operation name="Request">
+			<wsdl:input message="ns:Message"/>
+			<wsdl:output message="ns:ResponseMessage"/>
+			<wsdl:fault name="fault1" message="ns:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="PublishEvent">
+			<wsdl:input message="ns:EventMessage"/>
+			<wsdl:output message="ns:ResponseMessage"/>
+			<wsdl:fault name="fault1" message="ns:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetData">
+			<wsdl:input message="soa:GetDataMessage"/>
+			<wsdl:output message="ns:ResponseMessage"/>
+			<wsdl:fault name="fault1" message="ns:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetHisData">
+			<wsdl:input message="soa:GetHisDataMessage"/>
+			<wsdl:output message="ns:ResponseMessage"/>
+			<wsdl:fault name="fault1" message="ns:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetSystemTime">
+			<wsdl:input message="ns:SynchroMessage"/>
+			<wsdl:output message="ns:RespSynchroMessage"/>
+			<wsdl:fault name="fault1" message="ns:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetFileData">
+			<wsdl:input message="soa:GetFileDataMessage"/>
+			<wsdl:output message="ns:ResponseMessage"/>
+			<wsdl:fault name="fault1" message="ns:FaultMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SOAP" type="ns:Operations">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="Request">
+			<soap:operation soapAction="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault1">
+				<soap:fault use="literal" name="fault1"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="PublishEvent">
+			<soap:operation soapAction="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault1">
+				<soap:fault use="literal" name="fault1"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetData">
+			<soap:operation soapAction="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault1">
+				<soap:fault use="literal" name="fault1"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetHisData">
+			<soap:operation soapAction="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault1">
+				<soap:fault use="literal" name="fault1"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetSystemTime">
+			<soap:operation soapAction="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault1">
+				<soap:fault use="literal" name="fault1"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetFileData">
+			<soap:operation soapAction="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault1">
+				<soap:fault use="literal" name="fault1"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Service">
+		<wsdl:port name="SOAP" binding="ns:SOAP">
+			<soap:address location="http://localhost:1290"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by MESMERiZE (MSM) -->
+<!-- Common Message Specification for ESB Integration via IEC 61968 -->
+<xs:schema xmlns="http://www.iec.ch/TC57/2008/schema/message" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.iec.ch/TC57/2008/schema/message" 
+    elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<xs:complexType name="RequestType">
+		<xs:annotation>
+			<xs:documentation>Request type definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>Request package is typically used to supply parameters for 'get' requests</xs:documentation>
+			</xs:annotation>
+			<xs:element name="StartTime" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Start time of interest</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndTime" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>End time of interest</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Option" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Request type specialization</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ID" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Object ID for request</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReplyType">
+		<xs:annotation>
+			<xs:documentation>Reply type definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>Reply package is used to confirm success or report errors</xs:documentation>
+			</xs:annotation>
+			<xs:element name="ReplyCode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Reply code: OK or application defined error code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Error" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Reply details describing one or more errors</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ID" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Resulting transaction ID (usually consequence of create)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PayloadType">
+		<xs:annotation>
+			<xs:documentation>Payload container</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Compressed" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>For compressed and/or binary, uuencoded payloads</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="format" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XML, RDF, SVF, BINARY, PDF, ...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReplayDetectionType">
+		<xs:annotation>
+			<xs:documentation>Used to detect and prevent replay attacks</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nonce" type="xs:string"/>
+			<xs:element name="Created" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserType">
+		<xs:annotation>
+			<xs:documentation>User type definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="UserID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>User identifier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Organization" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>User parent organization identifier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeaderType">
+		<xs:annotation>
+			<xs:documentation>Message header type definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>Message header contains control and descriptive information about the message.</xs:documentation>
+			</xs:annotation>
+			<xs:element name="Verb" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The verb of the header identifies the action to be taken.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Noun" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The Noun of the header identifies the main subject of the message type, typically a real world object defined in the
+CIM.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Revision" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Revision level of the message type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReplayDetection" type="ReplayDetectionType" minOccurs="0"/>
+			<xs:element name="Context" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Intended context for information usage</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="PRODUCTION"/>
+						<xs:enumeration value="TESTING"/>
+						<xs:enumeration value="DEVELOPMENT"/>
+						<xs:enumeration value="STUDY"/>
+						<xs:enumeration value="TRAINING"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Timestamp" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Application level relevant time and date for when this instance of the message type was produced. This is not intended
+to be used by middleware for message management.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Source" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Source person or system that publishes the message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AsyncReplyFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether or not reply should be asynchronous</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReplyAddress" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Address to be used for asynchronous replies</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AckRequired" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether or not an acknowledgement is required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="User" type="UserType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>User information of the sender</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MessageID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique message ID to be used for tracking messages</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CorrelationID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID to be used by applications for correlating replies</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comment" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional comment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Property" type="MessageProperty" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Message properties can be used to identify information needed for extended routing and filtering
+capabilities</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Message" type="MessageType">
+		<xs:annotation>
+			<xs:documentation>Common IEC 61968 Message Definition</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="MessageProperty">
+		<xs:annotation>
+			<xs:documentation>Message properties can be used for extended routing and filtering</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string"/>
+			<xs:element name="Value" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RequestMessage" type="RequestMessageType">
+		<xs:annotation>
+			<xs:documentation>Request message structure</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ResponseMessage" type="ResponseMessageType">
+		<xs:annotation>
+			<xs:documentation>Response message structure</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="FaultMessage" type="FaultMessageType">
+		<xs:annotation>
+			<xs:documentation>Fault message structure</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="EventMessage" type="EventMessageType">
+		<xs:annotation>
+			<xs:documentation>Event message structure</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="RespSynchroMessage" type="RespSynchroMessageType" />
+	<xs:element name="SynchroMessage" type="SynchroMessageType" />
+	<xs:complexType name="RespSynchroMessageType">
+		<xs:annotation>
+			<xs:documentation>RespSynchro message type definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SynchroTime" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SynchroTime response parameter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="para1" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>para1 reserver parameter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SynchroMessageType">
+		<xs:annotation>
+			<xs:documentation>Synchro message type definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="para1" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>para1 reserver parameter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="para2" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>para2 reserver parameter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessageType">
+		<xs:annotation>
+			<xs:documentation>Generic Message Type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Header" type="HeaderType"/>
+			<xs:element name="Request" type="RequestType" minOccurs="0"/>
+			<xs:element name="Reply" type="ReplyType" minOccurs="0"/>
+			<xs:element name="Payload" type="PayloadType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestMessageType">
+		<xs:annotation>
+			<xs:documentation>Request Message Type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Header" type="HeaderType"/>
+			<xs:element name="Request" type="RequestType" minOccurs="0"/>
+			<xs:element name="Payload" type="PayloadType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResponseMessageType">
+		<xs:annotation>
+			<xs:documentation>Response MessageType</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Header" type="HeaderType"/>
+			<xs:element name="Reply" type="ReplyType"/>
+			<xs:element name="Payload" type="PayloadType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FaultMessageType">
+		<xs:annotation>
+			<xs:documentation>Faullt Messsage Type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Reply" type="ReplyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventMessageType">
+		<xs:annotation>
+			<xs:documentation>Event Message Type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Header" type="HeaderType"/>
+			<xs:element name="Request" type="RequestType" minOccurs="0"/>
+			<xs:element name="Payload" type="PayloadType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

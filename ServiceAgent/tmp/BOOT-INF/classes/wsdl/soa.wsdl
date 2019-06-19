@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.csg.cn/soa"
+  xmlns="http://www.csg.cn/soa" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://www.csg.cn/soa" xmlns="http://www.w3.org/2001/XMLSchema"
+      xmlns:soa="http://www.csg.cn/soa" xmlns:iec="http://www.iec.ch/TC57/2008/schema/message">
+      <import namespace="http://www.iec.ch/TC57/2008/schema/message"
+        schemaLocation="Message.xsd" />
+      <simpleType name="Operator">
+        <annotation>
+          <documentation>定义“查询条件操作类型”</documentation>
+        </annotation>
+        <restriction base="string">
+          <enumeration value="EQ">
+            <annotation>
+              <documentation>等于</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="NE">
+            <annotation>
+              <documentation>不等于</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="GT">
+            <annotation>
+              <documentation>大于</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="LT">
+            <annotation>
+              <documentation>小于</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="GE">
+            <annotation>
+              <documentation>大于等于</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="LE">
+            <annotation>
+              <documentation>小于等于</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="LIKE">
+            <annotation>
+              <documentation>模糊匹配</documentation>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+
+      <complexType name="QueryCondition">
+        <sequence>
+          <element name="item" type="soa:Item" minOccurs="0"
+            maxOccurs="unbounded">
+            <annotation>
+              <documentation>定义“查询条件”，查询条件中的数据项之间是“与”的关系</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+
+      <complexType name="ConditionSequence">
+        <annotation>
+          <documentation>定义“查询条件”序列，序列中的查询条件之间是“或”的关系</documentation>
+        </annotation>
+        <sequence>
+          <element name="Condition" type="soa:QueryCondition"
+            minOccurs="0" maxOccurs="unbounded">
+          </element>
+        </sequence>
+      </complexType>
+
+      <complexType name="Item">
+        <simpleContent>
+          <extension base="string">
+            <attribute name="attr" type="string"></attribute>
+            <attribute name="operator" type="soa:Operator"></attribute>
+          </extension>
+        </simpleContent>
+      </complexType>
+
+      <complexType name="SelectAttrsType">
+        <sequence>
+          <element name="attr" type="string" maxOccurs="unbounded"
+            minOccurs="0"></element>
+        </sequence>
+      </complexType>
+      
+      <complexType name="HisDataType">
+        <sequence>
+          <element name="attr" type="string" maxOccurs="unbounded"
+            minOccurs="0"></element>
+        </sequence>
+      </complexType>
+
+      <element name="AllConditions" type="soa:ConditionSequence"></element>
+      <element name="SelectAttrs" type="soa:SelectAttrsType"></element>
+      <element name="HisDataType" type="soa:HisDataType"></element>
+      <element name="GetDataMessage" type="iec:RequestMessageType" />
+      <element name="GetHisDataMessage" type="iec:RequestMessageType" />
+      <element name="GetFileDataMessage" type="iec:RequestMessageType" />
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="GetDataMessage">
+    <wsdl:part name="Message" element="GetDataMessage" />
+  </wsdl:message>
+  <wsdl:message name="GetHisDataMessage">
+    <wsdl:part name="Message" element="GetHisDataMessage" />
+  </wsdl:message>
+  <wsdl:message name="GetFileDataMessage">
+    <wsdl:part name="Message" element="GetFileDataMessage" />
+  </wsdl:message>
+</wsdl:definitions>
